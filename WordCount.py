@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import urllib
 import lxml.html
-url='http://world.chinadaily.com.cn/2015-12/01/content_22593520.htm'
+url='http://world.chinadaily.com.cn/2015-12/01/content_22593520.htm'#chageable url
 htmltree = lxml.html.parse(url)
 p_tags = htmltree.xpath('//p')
 p_content = [p.text_content() for p in p_tags]
