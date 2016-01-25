@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import urllib
 import lxml.html
+<<<<<<< HEAD
 website= 'http://world.chinadaily.com.cn/node_1129342.htm'
 webtoread=urlopen(website)
 soup=BeautifulSoup(webtoread,"lxml")
@@ -19,6 +20,16 @@ for link in soup.find_all('a'):
     links.append(h_link)
 links=links[links.index('#'):]
 #print(links)
+=======
+url='http://world.chinadaily.com.cn/2015-12/01/content_22593520.htm'#chageable url
+htmltree = lxml.html.parse(url)
+p_tags = htmltree.xpath('//p')
+p_content = [p.text_content() for p in p_tags]
+for i in range(len(p_content)):
+    if '\n' in p_content:
+        p_content.remove('\n')
+p_content=p_content[1:]
+>>>>>>> origin/master
 
 def getUniqueWords(allWords) :
     uniqueWords = [] 
