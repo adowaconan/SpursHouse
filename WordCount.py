@@ -9,14 +9,16 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import urllib
 import lxml.html
-url='http://world.chinadaily.com.cn/2015-12/01/content_22593520.htm'
-htmltree = lxml.html.parse(url)
-p_tags = htmltree.xpath('//p')
-p_content = [p.text_content() for p in p_tags]
-for i in range(len(p_content)):
-    if '\n' in p_content:
-        p_content.remove('\n')
-p_content=p_content[1:]
+website= 'http://world.chinadaily.com.cn/node_1129342.htm'
+webtoread=urlopen(website)
+soup=BeautifulSoup(webtoread,"lxml")
+
+links=[]
+for link in soup.find_all('a'):
+    h_link=link.get('href')
+    links.append(h_link)
+links=links[links.index('#'):]
+#print(links)
 
 def getUniqueWords(allWords) :
     uniqueWords = [] 
@@ -25,18 +27,37 @@ def getUniqueWords(allWords) :
             uniqueWords.append(i)
     return uniqueWords
     
-listofwords=[]
-for idx,line in enumerate(p_content):
-    for item in line:
-        listofwords.append(item)
-uniquelistofwords=getUniqueWords(listofwords)
 dictofwords={}
-for item in uniquelistofwords:
-    dictofwords[item]=0
+for items in links:
+    try:
+        #print(items)
+        #print(dictofwords)
+        url=items
+        htmltree = lxml.html.parse(url)
+        p_tags = htmltree.xpath('//p')
+        p_content = [p.text_content() for p in p_tags]
+        for i in range(len(p_content)):
+            if '\n' in p_content:
+                p_content.remove('\n')
+        p_content=p_content[1:]
+        #print(p_content)
+        
+        listofwords=[]
+        for idx,line in enumerate(p_content):
+            for item in line:
+                listofwords.append(item)
+        uniquelistofwords=getUniqueWords(listofwords)
+        
+        for item in uniquelistofwords:
+            if item not in dictofwords:
+                dictofwords[item]=0
     
-for key in dictofwords:
-    for item in listofwords:
-        if item == key:
-            dictofwords[key] += 1
-    
-
+        for key in dictofwords:
+            for item in listofwords:
+                if item == key:
+                    dictofwords[key] += 1
+        
+    except:
+        print(items,'no cant do')
+        
+        
