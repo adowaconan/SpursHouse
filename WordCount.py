@@ -7,6 +7,7 @@ Created on Thu Jan 21 14:07:26 2016
 
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+<<<<<<< HEAD
 import csv
 import pandas as pd
 from itertools import chain
@@ -15,6 +16,12 @@ import numpy as np
 from collections import Counter
 print('start')
 website= 'http://history.sina.com.cn/news/list/20.shtml'
+=======
+import urllib
+import lxml.html
+
+website= 'http://world.chinadaily.com.cn/node_1129342.htm'
+>>>>>>> origin/master
 webtoread=urlopen(website)
 soup=BeautifulSoup(webtoread,"lxml")
 T=soup.find_all('div',{'id':'main'})
@@ -25,6 +32,7 @@ U = S[2]
 V = list(U)
 V=str(V).split('"url"')
 links=[]
+<<<<<<< HEAD
 gatepass = True
 for lines in V:
     try:
@@ -41,6 +49,14 @@ def readurl(url):
         webtoread=urlopen(url);print('reading',end=',')
         soup = BeautifulSoup(webtoread,'lxml')
         return soup
+=======
+for link in soup.find_all('a'):
+    h_link=link.get('href')
+    links.append(h_link)
+links=links[links.index('#'):]
+#print(links)
+
+>>>>>>> origin/master
 
 cnt =1;p=[]
 dictofwords={}
